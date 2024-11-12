@@ -21,7 +21,7 @@ public class BanHangForm extends javax.swing.JFrame {
      * Creates new form BanHangForm
      */
     public BanHangForm() {
-        initComponents();
+        initComponents(); 
     }
 
     /**

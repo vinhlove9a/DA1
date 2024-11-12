@@ -8,12 +8,22 @@ import BanHang.BanHangForm;
 import DatBan.FormDatBan;
 import QuanLyNhanVien.FormQLNV;
 import ThongKe.FormThongKe;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.SanPham;
+import org.apache.poi.sl.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import repository.SanPhamRepo;
 import viewChucNang.ViewByQuanLy;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -27,20 +37,21 @@ public class FormQLSP extends javax.swing.JFrame {
     repository.SanPhamRepo rp = new SanPhamRepo();
     DefaultTableModel model = new DefaultTableModel();
     int index;
+
     public FormQLSP() {
         initComponents();
         cboLoaiSanPham1.removeAllItems();
         cboLoaiSanPham1.addItem("Đồ ăn");
         cboLoaiSanPham1.addItem("Đồ uống");
-        
+
         cboLoaiSanPham2.removeAllItems();
         cboLoaiSanPham2.addItem("Đồ ăn");
         cboLoaiSanPham2.addItem("Đồ uống");
-        
+
         setLocationRelativeTo(null);
         model = (DefaultTableModel) tblSanPham.getModel();
         this.fillToTable(rp.getAll());
-        if(tblSanPham.getRowCount()>0){
+        if (tblSanPham.getRowCount() > 0) {
             index = 1;
             this.showDeTail();
         }
@@ -99,6 +110,7 @@ public class FormQLSP extends javax.swing.JFrame {
         cboLoaiSanPham1 = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox<>();
+        jButton9 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -366,7 +378,7 @@ public class FormQLSP extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel15)
                     .addComponent(txtMoTa, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -412,6 +424,13 @@ public class FormQLSP extends javax.swing.JFrame {
         jComboBox4.setBackground(new java.awt.Color(204, 204, 204));
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang Bán ", "Ngừng Bán", " " }));
 
+        jButton9.setText("excel");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -430,7 +449,9 @@ public class FormQLSP extends javax.swing.JFrame {
                                 .addComponent(cboLoaiSanPham1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(122, 122, 122)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
                                 .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,12 +462,17 @@ public class FormQLSP extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel19)
-                    .addComponent(jLabel20))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel20)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton9)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -455,7 +481,7 @@ public class FormQLSP extends javax.swing.JFrame {
                         .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -549,6 +575,52 @@ public class FormQLSP extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+
+        JFileChooser fileChooser = new JFileChooser("D:\\anh");
+        fileChooser.setDialogTitle("Lưu file Excel");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Excel Files", "xlsx"));
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            if (!fileToSave.getAbsolutePath().endsWith(".xlsx")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".xlsx");
+            }
+            try ( Workbook workbook = new XSSFWorkbook()) {
+                org.apache.poi.ss.usermodel.Sheet sheet = workbook.createSheet("Sản Phẩm");
+                Row headerRow = sheet.createRow(0);
+                headerRow.createCell(0).setCellValue("Tên Sản Phẩm");
+                headerRow.createCell(1).setCellValue("Giá Bán");
+                headerRow.createCell(2).setCellValue("Số Lượng Tồn");
+                headerRow.createCell(3).setCellValue("Hình Ảnh");
+                headerRow.createCell(4).setCellValue("Tên Loại");
+                headerRow.createCell(5).setCellValue("kích Cỡ sản Phẩm");
+                headerRow.createCell(6).setCellValue("Màu Sắc Sản Phẩm");
+                headerRow.createCell(7).setCellValue("Tên Thương Hiệu");
+                headerRow.createCell(8).setCellValue("Chất Liệu");
+                headerRow.createCell(9).setCellValue("Xuất Xứ");
+                headerRow.createCell(10).setCellValue("Mã Sản Phẩm");
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    Row row = sheet.createRow(i + 1);
+                    for (int j = 0; j < model.getColumnCount(); j++) {
+                        Object cellValue = model.getValueAt(i, j);
+                        row.createCell(j).setCellValue(cellValue != null ? cellValue.toString() : "");
+                    }
+                }
+                try ( FileOutputStream outputStream = new FileOutputStream(fileToSave)) {
+                    workbook.write(outputStream);
+                    JOptionPane.showMessageDialog(this, "Xuất Excel thành công!");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+            }
+        }
+
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -598,6 +670,7 @@ public class FormQLSP extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
